@@ -1,3 +1,9 @@
+Flask>=2.3
+Werkzeug>=2.3
+itsdangerous>=2.1.0
+Jinja2>=3.1
+numpy>=1.23
+setuptools>=68.0
 absl-py
 accelerate
 aiofiles
@@ -48,7 +54,6 @@ django-filter
 django-model-utils
 djangorestframework
 fastapi
-Flask
 Flask-SQLAlchemy
 fonttools
 google-api-core
@@ -76,7 +81,6 @@ ipython
 ipywidgets
 jax
 jaxlib
-Jinja2
 joblib
 jsonschema
 keras
@@ -90,7 +94,6 @@ mediapipe
 msgpack
 multiprocess
 namex
-numpy
 onnx
 onnxruntime
 openai
