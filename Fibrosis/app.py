@@ -73,5 +73,7 @@ def classify():
 
     return render_template('classify.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Use PORT environment variable assigned by Render
+    app.run(host="0.0.0.0", port=port, debug=True)  
