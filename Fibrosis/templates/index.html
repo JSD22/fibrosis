@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibrosis Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1f1f1f;
+            color: #03DAC5;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        main {
+            padding: 2rem;
+        }
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        .chart {
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            text-align: center;
+        }
+        .chart img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .classify-button {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .classify-button a {
+            background: #03DAC5;
+            color: #121212;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .classify-button a:hover {
+            background: #028c84;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fibrosis Dashboard</h1>
+    </header>
+    <main>
+        <h2>Data Visualizations</h2>
+        <div class="charts">
+            <div class="chart">
+                <h3>Localization Distribution</h3>
+                <img src="static\localisation.jpg" alt="Localization Distribution">
+            </div>
+            <div class="chart">
+                <h3>Age Distribution</h3>
+                <img src="static\age.jpg" alt="Age Distribution">
+            </div>
+            <div class="chart">
+                <h3>Cancer Category Distribution</h3>
+                <img src="static\category.jpg" alt="Cancer Category Distribution">
+            </div>
+        </div>
+        <div class="classify-button">
+            <a href="/classify">Classify Lesion</a>
+        </div>
+    </main>
+</body>
+</html>
