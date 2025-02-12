@@ -171,14 +171,13 @@ pandas==2.2.3
 pillow==10.3.0
 protobuf==5.28.3
 psycopg2-binary==2.9.10
-pydantic==2.9.2
-pytorch==2.0.1
+pydantic>=2.0,<2.9  # Flexible version to prevent Python mismatch
 scikit-learn==1.4.2
 scipy==1.13.0
 seaborn==0.13.2
 SQLAlchemy==2.0.36
 tensorflow==2.18.0
-torch==2.0.1
+torch==2.0.1  # Corrected package name
 torchvision==0.15.2
 tqdm==4.66.5
 transformers==4.46.0
