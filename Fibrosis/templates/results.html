@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Performance Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #1f1f1f;
+            color: #03DAC5;
+            padding: 1rem 0;
+        }
+        table {
+            width: 80%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        th, td {
+            padding: 1rem;
+            border: 1px solid #03DAC5;
+        }
+        th {
+            background: #2e2e2e;
+        }
+        .conclusion {
+            margin: 2rem auto;
+            width: 80%;
+            padding: 1rem;
+            background: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        .downloads {
+            margin: 2rem auto;
+            width: 80%;
+            text-align: center;
+            padding: 1rem;
+            background: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        .downloads a {
+            text-decoration: none;
+            margin: 10px;
+        }
+        .downloads button {
+            background-color: #03DAC5;
+            color: #121212;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .downloads button:hover {
+            background-color: #028f8f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Model Performance Comparison</h1>
+    </header>
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1 Score</th>
+        </tr>
+        <tr>
+            <td>CNN</td>
+            <td>97.56%</td>
+            <td>97.72%</td>
+            <td>97.56%</td>
+            <td>97.53%</td>
+        </tr>
+        <tr>
+            <td>VGG</td>
+            <td>80.00%</td>
+            <td>79.00%</td>
+            <td>80.00%</td>
+            <td>79.00%</td>
+        </tr>
+        <tr>
+            <td>EfficientNet</td>
+            <td>77.73%</td>
+            <td>48.00%</td>
+            <td>53.00%</td>
+            <td>51.00%</td>
+        </tr>
+    </table>
+    
+    <div class="conclusion">
+        <h2>Conclusion</h2>
+        <p>Based on the comparison, CNN outperforms both VGG and EfficientNet in terms of accuracy, precision, recall, and F1-score. VGG performs moderately well but falls short of CNN's performance. EfficientNet, while a powerful model in other applications, does not perform as well in this specific task, with significantly lower precision, recall, and F1-score. For the best classification results, CNN should be the preferred model.</p>
+    </div>
+
+    <div class="downloads">
+        <h2>Download Notebook Files</h2>
+        <a href="{{ url_for('download_file', filename='cnn_model.ipynb') }}">
+            <button>Download CNN Model</button>
+        </a>
+        <a href="{{ url_for('download_file', filename='vgg_model.ipynb') }}">
+            <button>Download VGG Model</button>
+        </a>
+        <a href="{{ url_for('download_file', filename='efficientnet_model.ipynb') }}">
+            <button>Download EfficientNet Model</button>
+        </a>
+    </div>
+</body>
+</html>

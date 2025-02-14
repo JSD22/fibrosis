@@ -37,11 +37,11 @@
             max-width: 100%;
             border-radius: 8px;
         }
-        .classify-button {
+        .classify-button, .compare-button {
             text-align: center;
             margin-top: 2rem;
         }
-        .classify-button a {
+        .classify-button a, .compare-button button {
             background: #03DAC5;
             color: #121212;
             padding: 0.7rem 1.5rem;
@@ -52,8 +52,15 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .classify-button a:hover {
+        .classify-button a:hover, .compare-button button:hover {
             background: #028c84;
+        }
+        .dataset-description {
+            background: #1e1e1e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -62,24 +69,60 @@
         <h1>Fibrosis Dashboard</h1>
     </header>
     <main>
+
+        <!-- Dataset Description -->
+        <div class="dataset-description">
+            <h2>Dataset Description</h2>
+            <p>
+                The HAM10000 dataset consists of 10,015 dermoscopic images classified into seven skin disease types.
+                It includes patient age, gender, lesion location, and diagnosis categories. 
+                This dataset is widely used in machine learning models for skin cancer detection.
+            </p>
+        </div>
+
+        <!-- Data Visualizations -->
         <h2>Data Visualizations</h2>
         <div class="charts">
             <div class="chart">
                 <h3>Localization Distribution</h3>
-                <img src="static\localisation.jpg" alt="Localization Distribution">
+                <img src="static/localisation.jpg" alt="Localization Distribution">
             </div>
             <div class="chart">
                 <h3>Age Distribution</h3>
-                <img src="static\age.jpg" alt="Age Distribution">
+                <img src="static/age.jpg" alt="Age Distribution">
             </div>
             <div class="chart">
                 <h3>Cancer Category Distribution</h3>
-                <img src="static\category.jpg" alt="Cancer Category Distribution">
+                <img src="static/cancercatdist.jpg" alt="Cancer Category Distribution">
+            </div>
+            <div class="chart">
+                <h3>Gender Distribution</h3>
+                <img src="static/genderdist.jpg" alt="Gender Distribution">
+            </div>
+            <div class="chart">
+                <h3>Age vs Cancer Type</h3>
+                <img src="static/agevscancer.jpg" alt="Age vs Cancer Type">
+            </div>
+            <div class="chart">
+                <h3>Cancer Type vs Localization Heatmap</h3>
+                <img src="static/heatmap.jpg" alt="Cancer Type vs Localization">
             </div>
         </div>
+
+        <!-- Classify Button -->
         <div class="classify-button">
             <a href="/classify">Classify Lesion</a>
         </div>
+
+        <!-- Compare Button -->
+        <div class="compare-button">
+            <a href="/results">
+                <button>Compare Results</button>
+            </a>
+        </div>
+        
+
     </main>
+
 </body>
 </html>
