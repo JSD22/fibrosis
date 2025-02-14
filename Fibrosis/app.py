@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import os
 import base64
 import numpy as np
@@ -12,6 +12,10 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Ensure the models directory exists
+MODEL_FOLDER = 'static/models'
+os.makedirs(MODEL_FOLDER, exist_ok=True)
 
 # Groq API client
 client = Groq(api_key="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")
@@ -34,7 +38,7 @@ def classify_image(image_path):
                 "role": "user",
                 "content": [
                     {"type": "text", "text": "Classify this skin lesion into one of these categories: benign keratosis-like lesions, melanocytic nevi, dermatofibroma, melanoma, vascular lesions, basal cell carcinoma, actinic keratosis / intraepithelial carcinoma."},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}   
                 ],
             }
         ],
@@ -73,7 +77,15 @@ def classify():
 
     return render_template('classify.html')
 
+@app.route("/results")
+def results():
+    """Render the results page."""
+    return render_template('results.html')
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Use PORT environment variable assigned by Render
-    app.run(host="0.0.0.0", port=port, debug=True)  
+@app.route('/download/<filename>')
+def download_file(filename):
+    """Serve files from the models directory."""
+    return send_from_directory(MODEL_FOLDER, filename, as_attachment=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)
