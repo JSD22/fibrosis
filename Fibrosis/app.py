@@ -18,7 +18,7 @@ MODEL_FOLDER = 'static/models'
 os.makedirs(MODEL_FOLDER, exist_ok=True)
 
 # Groq API client
-client = Groq(api_key="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")
+client = Groq(api_key="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")
 
 # Predefined categories
 categories = ['benign keratosis-like lesions', 'melanocytic nevi', 'dermatofibroma', 'melanoma', 'vascular lesions', 'basal cell carcinoma', 'actinic keratosis / intraepithelial carcinoma']
@@ -42,7 +42,7 @@ def classify_image(image_path):
                 ],
             }
         ],
-        model="llama-3.2-11b-vision-preview",
+        model="meta-llama/llama-4-scout-17b-16e-instruct",
     )
     
     response_text = chat_completion.choices[0].message.content.lower()
