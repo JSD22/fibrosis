@@ -3,7 +3,8 @@ import os
 import base64
 import numpy as np
 from werkzeug.utils import secure_filename
-from groq import Groq
+from keras.models import load_model
+from keras.preprocessing import image
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -17,48 +18,48 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 MODEL_FOLDER = 'static/models'
 os.makedirs(MODEL_FOLDER, exist_ok=True)
 
-# Groq API client
-client = Groq(api_key="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")
+# Load the local Keras model
+MODEL_PATH = 'static/models/skin_lesion_model.h5'
+local_model = load_model(MODEL_PATH)
 
-# Predefined categories
-categories = ['benign keratosis-like lesions', 'melanocytic nevi', 'dermatofibroma', 'melanoma', 'vascular lesions', 'basal cell carcinoma', 'actinic keratosis / intraepithelial carcinoma']
 
-def encode_image(image_path):
-    """Convert image to base64 encoding."""
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+categories = [
+    'actinic keratosis / intraepithelial carcinoma',  # 0
+    'basal cell carcinoma',                          # 1
+    'benign keratosis-like lesions',                 # 2
+    'dermatofibroma',                                # 3
+    'melanocytic nevi',                              # 4
+    'melanoma',                                      # 5
+    'vascular lesions'                               # 6
+]
 
-def classify_image(image_path):
-    """Classify the image using the Groq API."""
-    base64_image = encode_image(image_path)
-    
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": "Classify this skin lesion into one of these categories: benign keratosis-like lesions, melanocytic nevi, dermatofibroma, melanoma, vascular lesions, basal cell carcinoma, actinic keratosis / intraepithelial carcinoma."},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}   
-                ],
-            }
-        ],
-        model="meta-llama/llama-4-scout-17b-16e-instruct",
-    )
-    
-    response_text = chat_completion.choices[0].message.content.lower()
-    for category in categories:
-        if category in response_text:
-            return category
-    return "Unknown"
+def classify_with_local_model(image_path):
+    """Classify image using the local .h5 model trained on 28x28x3 RGB data."""
+    try:
+        img = image.load_img(image_path, target_size=(28, 28))  # Your model input size
+        img_array = image.img_to_array(img)
+        img_array = img_array / 255.0  # Normalize to [0, 1]
+        img_array = np.expand_dims(img_array, axis=0)  # Shape: (1, 28, 28, 3)
+
+        prediction = local_model.predict(img_array)
+        predicted_index = np.argmax(prediction[0])
+
+        return categories[predicted_index]
+    except Exception as e:
+        print(f"Local model classification error: {e}")
+        return None
+
+def classify_image_local_only(image_path):
+    """Use only the local model for prediction. Groq is disabled."""
+    local_prediction = classify_with_local_model(image_path)
+    return local_prediction if local_prediction else "Prediction Failed"
 
 @app.route('/')
 def home():
-    """Render the homepage."""
     return render_template('index.html')
 
 @app.route('/classify', methods=['GET', 'POST'])
 def classify():
-    """Handle image upload and classification."""
     if request.method == 'POST':
         if 'file' not in request.files:
             return redirect(request.url)
@@ -70,8 +71,8 @@ def classify():
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
 
-            # Perform classification
-            predicted_category = classify_image(file_path)
+            # Use only local model for classification
+            predicted_category = classify_image_local_only(file_path)
 
             return render_template('classify.html', prediction=predicted_category, filename=filename)
 
@@ -79,12 +80,10 @@ def classify():
 
 @app.route("/results")
 def results():
-    """Render the results page."""
     return render_template('results.html')
 
 @app.route('/download/<filename>')
 def download_file(filename):
-    """Serve files from the models directory."""
     return send_from_directory(MODEL_FOLDER, filename, as_attachment=True)
 
 if __name__ == '__main__':
